@@ -23,11 +23,14 @@ const modalImgRef = document.querySelector(`.lightbox__image`);
 const overlayRef = document.querySelector(`.lightbox__overlay`);
 
 
-galleryRef.addEventListener(`click`, onGalleryContainerclick);
+galleryRef.addEventListener(`click`, onGalleryContainerСlick);
+galleryRef.addEventListener(`keydown`, onGalleryContainerKey);
+
 modalCloseContainerBtn.addEventListener(`click`, onModalClose);
 overlayRef.addEventListener(`click`, onCloseModalFromOverlay);
 window.addEventListener(`keydown`, onCloseModalKey);
-// window.addEventListener(`keydown`, onSliderModal);
+galleryRef.addEventListener(`click`, onSlider);
+galleryRef.addEventListener(`keydown`, onSliderModal);
 
 function creatCardsGallery() 
 {
@@ -54,7 +57,7 @@ function creatCardsGallery()
  
 galleryRef.insertAdjacentHTML(`afterbegin`, creatCardsGallery());
 
-function onGalleryContainerclick(event) {
+function onGalleryContainerСlick(event) {
     event.preventDefault();
     event.target.dataset.source;
     modalContainer.classList.add(`is-open`);
@@ -62,6 +65,14 @@ function onGalleryContainerclick(event) {
      modalImgRef.alt = event.target.alt
 
     
+}
+
+function onGalleryContainerKey(event) {
+    if (event.code === `Enter`) {
+         event.preventDefault();
+    modalContainer.classList.add(`is-open`);
+    modalImgRef.src = event.target.href;
+    }
 }
     
 function onModalClose() {
@@ -88,9 +99,32 @@ function onCloseModalKey(event) {
     }
 }
 
-// function onSliderModal(event) {
-//     console.log(event.code);
-//     if (event.code === `ArrowRight`) {
-//         modalImgRef = .nextElementSibling;
-//     }
-// }
+const itemRef = Array.from (document.querySelectorAll(`.gallery__item`));
+
+
+let i;
+
+function onSlider(event) {
+    i = itemRef.indexOf(event.target.parentNode.parentNode);
+}
+
+function onSliderModal(event) {
+
+   
+     if (event.code === `ArrowRight`)  {
+         i += 1
+         if (i === itemRef.length) {
+        i = 0;
+       
+    }
+    }
+
+    if (event.code === `ArrowLeft`) {
+        i -= 1
+        if (i < 0 ) {
+            i = 8;
+        }
+    }
+    
+         modalImgRef.src = itemRef[i].firstElementChild.href;
+    }
