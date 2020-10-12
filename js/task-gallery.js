@@ -122,7 +122,7 @@ function onSliderModal(event) {
     if (event.code === `ArrowLeft`) {
         i -= 1
         if (i < 0 ) {
-            i = 8;
+            i = itemRef.length - 1;
         }
     }
     
